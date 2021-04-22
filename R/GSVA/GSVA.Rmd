@@ -14,8 +14,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ## test renv
 
 ```{r renv}
+if (!requireNamespace("renv", quietly = TRUE))
+    install.packages("renv")
+if (!requireNamespace("glue", quietly = TRUE))
+    install.packages("glue")
+
 library(renv)
 library(glue)
+
 Sys.setenv(RENV_PATHS_LOCAL = glue("{getwd()}/renv/local"))
 options(connectionObserver = NULL) # fix current bug in RSQL. see https://support.bioconductor.org/p/9136239/
 renv::restore()
