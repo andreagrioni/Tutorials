@@ -35,13 +35,13 @@ Gene Set Variation Analysis (GSVA) is a non-parametric, unsupervised method for 
 Author: Justin Guinney [aut, cre], Robert Castelo [aut], Alexey Sergushichev [ctb], Pablo Sebastian Rodriguez [ctb]
 Citation: [publication_link](https://doi.org/10.1186/1471-2105-14-7)
 
-```{r installation, error=FALSE, message=FALSE, warning=FALSE, echo=TRUE, results='hide'}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
+#```{r installation, error=FALSE, message=FALSE, warning=FALSE, echo=TRUE, results='hide'}
+#if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
 
-if (!requireNamespace("GSVA", quietly = TRUE))
-    BiocManager::install("GSVA")
-```
+#if (!requireNamespace("GSVA", quietly = TRUE))
+#    BiocManager::install("GSVA")
+#```
 
 # Load libraries
 
@@ -117,7 +117,7 @@ datapath <- glue("{getwd()}/gsva_dataset")
 clinical_filename <-"hsa05212_pancreatic_cancer_insilico_clinical.csv"
 adat_filename <- "hsa05212_pancreatic_cancer_insilico.adat"
 gmt_filename <- "signature.somamers.cleaned.gmt"
-output_dir <- "/home/rstudio/output/test"
+output_dir <- "/home/grionan1/dev/output"
 
 clinical_sampleid_colname <- "SampleId"
 ```
@@ -724,11 +724,7 @@ The `mgh_adat` dataset is filtered to keep only baseline samples (from both COVI
 ```{r load_data, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 
 demo_set <- read_csv(fs::path(output_dir, "somascan_qc_log2_norm.csv"))
-# load adat file
-#adat_db <- read_adat("/home/rstudio/data/hsa05212_pancreatic_cancer_insilico.adat")
-#clinical_db <- read_csv("/home/rstudio/data/hsa05212_pancreatic_cancer_insilico_clinical.csv")
 
-#demo_set <- adat_db %>% inner_join(clinical_db, by="SampleId")
 demo_set %>% head(10)
 ```
 
@@ -765,6 +761,12 @@ if (!identical(colnames(exprs(minimalSet)), rownames(pData(minimalSet)))) print(
 We carry out a non-specific filtering step by discarding the 25% of the `probesets` with smaller variability,
 `probesets` without `Entrez ID` annotation, `probesets` whose associated `Entrez ID` is duplicated
 in the annotation, and `Affymetrix` quality control probes:
+
+If raise error, please run:
+
+`options(connectionObserver = NULL) # fix current bug in RSQL. see https://support.bioconductor.org/p/9136239/`
+and then
+`library(somascan.db)`
 
 ```{r, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 filtered_eset <- nsFilter(
