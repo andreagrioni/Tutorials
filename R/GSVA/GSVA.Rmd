@@ -15,10 +15,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r renv}
 library(renv)
+library(glue)
+Sys.setenv(RENV_PATHS_LOCAL = glue("{getwd()}/renv/local"))
+options(connectionObserver = NULL) # fix current bug in RSQL. see https://support.bioconductor.org/p/9136239/
 renv::restore()
 
 #install.packages('plyr', repos = 'https://cloud.r-project.org')
 #install.packages("gridExtra", repos = 'https://cloud.r-project.org')
+
+## ERROR: compilation failed for package ‘XVector’
+# sudo apt-get install libz-dev
+## ERROR: libxml2.so.2: cannot open shared object file: No such file or directory
+# sudo apt-get install libxml2
 ```
 # Gene Set Variation Analysis
 
@@ -53,7 +61,6 @@ library(SomaDataIO)
 library(ggplot2)
 library(fs)
 library(tidyverse)
-library(limma)
 library(plyr)
 library(gplots)
 library(RColorBrewer)
@@ -92,17 +99,25 @@ update_discarded <- function(table_in, flag, table=NULL) {
 ```
 
 
+# Extract Data Archive
+
+Toy Dataset will be extracted in the working directory.
+
+```{r}
+unzip(glue("{str_replace(getwd(), 'R/GSVA', '')}/datasets/gsva/gsva_dataset.zip"))
+```
+
 # Data Path
 
 Set path to datasets
 
 ```{r}
 # absolute path to data folder
-datapath <- "/home/rstudio/data"
+datapath <- glue("{getwd()}/gsva_dataset")
 clinical_filename <-"hsa05212_pancreatic_cancer_insilico_clinical.csv"
 adat_filename <- "hsa05212_pancreatic_cancer_insilico.adat"
-gmt_filename <- "msigdb.v7.4.entrez.gmt"
-output_dir <- "/home/rstudio/output_test/"
+gmt_filename <- "signature.somamers.cleaned.gmt"
+output_dir <- "/home/rstudio/output/test"
 
 clinical_sampleid_colname <- "SampleId"
 ```
@@ -114,6 +129,7 @@ clinical_filepath <- fs::path(datapath, clinical_filename)
 adat_filepath <- fs::path(datapath, adat_filename)
 gmt_filepath <- fs::path(datapath, gmt_filename)
 output_dir <- fs::path(output_dir)
+fs::dir_create(output_dir)
 ```
 
 
@@ -774,7 +790,7 @@ In this example, we selected the Hallmark gene sets. It summarizes and represent
 ```{r, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 ## load the Expression Sets.
 gsc <- GSEABase::getGmt(
-  "/home/rstudio/data/toy.signature.only.somamers.gmt",
+  gmt_filepath,
   collectionType=NullCollection(),
   geneIdType=EntrezIdentifier())
 ```
@@ -863,8 +879,7 @@ heatmap.2(heat,
   cexCol=2.0, 
   distfun=function(x) dist(x, method="euclidean"), 
   hclustfun=function(x) hclust(x, method="ward.D2"),
-  margins=c(10,60),
-          )
+  margins=c(10,60))
 
 ```
 
