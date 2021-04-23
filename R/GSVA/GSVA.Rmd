@@ -18,6 +18,8 @@ if (!requireNamespace("renv", quietly = TRUE))
     install.packages("renv")
 if (!requireNamespace("glue", quietly = TRUE))
     install.packages("glue")
+if (!requireNamespace("org.Hs.eg.db", quietly = TRUE))
+    BiocManager::install("org.Hs.eg.db")
 
 library(renv)
 library(glue)
@@ -74,6 +76,7 @@ library(tidyverse)
 library(plyr)
 library(gplots)
 library(RColorBrewer)
+library(somascan.db)
 ```
 ## Helper functions
 
