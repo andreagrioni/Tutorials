@@ -11,15 +11,30 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Settings for Internal Servers
+
+Add Tutorial libraries to libPaths.
+
+```{r}
+
+libpath_local <- c("/home/grionan1/dev/R_lib/session9_gsva/")
+
+.libPaths(libpath_local)
+
+```
+
+
 ## test renv
 
 ```{r renv}
-if (!requireNamespace("renv", quietly = TRUE))
-    install.packages("renv")
-if (!requireNamespace("glue", quietly = TRUE))
-    install.packages("glue")
-if (!requireNamespace("org.Hs.eg.db", quietly = TRUE))
-    BiocManager::install("org.Hs.eg.db")
+if (!requireNamespace("renv", quietly = TRUE, lib.loc=libpath_local))
+    install.packages("renv", lib=libpath_local)
+if (!requireNamespace("glue", quietly = TRUE, lib.loc=libpath_local))
+    install.packages("glue", lib=libpath_local)
+if (!requireNamespace("BiocManager", quietly=TRUE, lib.loc=libpath_local))
+  install.packages("BiocManager")
+if (!requireNamespace("org.Hs.eg.db", quietly = TRUE, lib.loc=libpath_local))
+    BiocManager::install("org.Hs.eg.db", lib=libpath_local)
 
 library(renv)
 library(glue)
@@ -638,6 +653,11 @@ res <- decideTests(
   )
 summary(res)
 ```
+
+```{r}
+allGeneSets %>% as_tibble %>% add_column('GeneSet' = rownames(allGeneSets), .before='logFC') %>% arrange(adj.P.Val)
+```
+
 ```{r, fig.width=30, fig.height=30}
 sigPathways <- topTable(fit, coef=1, number=Inf, p.value=0.05, adjust="BH")
 sigPathways <- sigPathways[abs(sigPathways$logFC)>0.2,]
