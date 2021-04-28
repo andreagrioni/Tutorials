@@ -4,10 +4,14 @@ This tutorial covers basic steps to perform Gene Set Variation Analysis from Som
 
 Gene Set Variation Analysis tool is available at [GSVA](https://github.com/rcastelo/GSVA).
 
-## Tutorial Description
+## Dataset Description
 
-The tutorial uses a toy dataset consituted of a Pancreatic Cancer Study and placebo group. 
-The Pancreatic Cancer group was simulated by overexpression of 10-folds proteins associated to Pancreatic Cancer gene signatures.
+The tutorial uses an in-silico dataset with two groups: cancer (treatment) and healthy donor (placebo). 
+In the cancer group, proteins associated to Pancreatic Cancer were overexpression of 10-folds.
+
+A simulated, in-silico molecular signature was created by subsampling some of the proteins associated to Pancreatic Cancer.
+
+Therefore, both molecular signature as well as the Somascan dataset are simulated data.
 
 ## Tutorial Usage
 
