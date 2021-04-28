@@ -621,7 +621,7 @@ minimalSet_es <- gsva(
   min.sz=10, max.sz=500, verbose=TRUE, method='gsva')
 ```
 ```{r}
-# show replacement
+# show replacement and single sample scores
 exprs(minimalSet_es)
 dim(exprs(minimalSet_es))
 ```
@@ -661,7 +661,7 @@ summary(res)
 allGeneSets %>% as_tibble %>% add_column('GeneSet' = rownames(allGeneSets), .before='logFC') %>% arrange(adj.P.Val)
 ```
 
-```{r, fig.width=30, fig.height=30}
+```{r, fig.width=30, fig.height=15}
 sigPathways <- topTable(fit, coef=1, number=Inf, p.value=0.05, adjust="BH")
 sigPathways <- sigPathways[abs(sigPathways$logFC)>0.2,]
 res <- decideTests(fit, p.value=0.05)
@@ -700,6 +700,5 @@ heatmap.2(heat,
   distfun=function(x) dist(x, method="euclidean"), 
   hclustfun=function(x) hclust(x, method="ward.D2"),
   margins=c(10,60))
-
 ```
 
