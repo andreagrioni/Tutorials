@@ -68,14 +68,6 @@ Gene Set Variation Analysis (GSVA) is a non-parametric, unsupervised method for 
 Author: Justin Guinney [aut, cre], Robert Castelo [aut], Alexey Sergushichev [ctb], Pablo Sebastian Rodriguez [ctb]
 Citation: [publication_link](https://doi.org/10.1186/1471-2105-14-7)
 
-#```{r installation, error=FALSE, message=FALSE, warning=FALSE, echo=TRUE, results='hide'}
-#if (!requireNamespace("BiocManager", quietly = TRUE))
-#    install.packages("BiocManager")
-
-#if (!requireNamespace("GSVA", quietly = TRUE))
-#    BiocManager::install("GSVA")
-#```
-
 # Load libraries
 
 The notebook requires the packages `GSVA`, `GSEABase`, `Biobase`, `geneFilter`, `limma`, `tidyverse`, `glue`, and the `SOMAscan.db` annotation package.
