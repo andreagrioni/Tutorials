@@ -24,7 +24,6 @@ libpath_local <- c("/dlab/bioinformatics/TM/TMDS3/training/share/R/session9_gsva
 
 ```
 
-
 ## test renv
 
 ```{r renv}
@@ -32,10 +31,7 @@ if (!requireNamespace("renv", quietly = TRUE))
    install.packages("renv")
 if (!requireNamespace("glue", quietly = TRUE))
     install.packages("glue", lib=libpath_local)
-# if (!requireNamespace("BiocManager", quietly=TRUE, lib.loc=libpath_local))
-#   install.packages("BiocManager")
-# if (!requireNamespace("org.Hs.eg.db", quietly = TRUE, lib.loc=libpath_local))
-#     BiocManager::install("org.Hs.eg.db", lib=libpath_local)
+
 
 library(renv)
 library(glue)
@@ -43,6 +39,15 @@ library(glue)
 Sys.setenv(RENV_PATHS_LOCAL = glue("{getwd()}/renv/local"))
 options(connectionObserver = NULL) # fix current bug in RSQL. see https://support.bioconductor.org/p/9136239/
 renv::restore()
+```
+
+### Fix Common Installation Errors
+
+```{r}
+# if (!requireNamespace("BiocManager", quietly=TRUE, lib.loc=libpath_local))
+#   install.packages("BiocManager")
+# if (!requireNamespace("org.Hs.eg.db", quietly = TRUE, lib.loc=libpath_local))
+#     BiocManager::install("org.Hs.eg.db", lib=libpath_local)
 
 #install.packages('plyr', repos = 'https://cloud.r-project.org')
 #install.packages("gridExtra", repos = 'https://cloud.r-project.org')
@@ -88,7 +93,6 @@ library(gridExtra)
 library(SomaDataIO)
 library(ggplot2)
 library(fs)
-library(tidyverse)
 library(plyr)
 library(gplots)
 library(RColorBrewer)
