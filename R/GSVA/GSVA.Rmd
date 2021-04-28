@@ -17,7 +17,8 @@ Add Tutorial libraries to libPaths.
 
 ```{r}
 
-libpath_local <- c("/home/grionan1/dev/R_lib/session9_gsva/")
+libpath_local <- c("/dlab/bioinformatics/TM/TMDS3/training/share/R/session9_gsva/Rlib/", 
+                   "/dlab/bioinformatics/TM/TMDS3/training/share/R/session9_gsva/Tutorials-main/R/GSVA/renv/library/R-4.0/x86_64-pc-linux-gnu")
 
 .libPaths(libpath_local)
 
@@ -27,14 +28,14 @@ libpath_local <- c("/home/grionan1/dev/R_lib/session9_gsva/")
 ## test renv
 
 ```{r renv}
-if (!requireNamespace("renv", quietly = TRUE, lib.loc=libpath_local))
-    install.packages("renv", lib=libpath_local)
-if (!requireNamespace("glue", quietly = TRUE, lib.loc=libpath_local))
+if (!requireNamespace("renv", quietly = TRUE))
+   install.packages("renv")
+if (!requireNamespace("glue", quietly = TRUE))
     install.packages("glue", lib=libpath_local)
-if (!requireNamespace("BiocManager", quietly=TRUE, lib.loc=libpath_local))
-  install.packages("BiocManager")
-if (!requireNamespace("org.Hs.eg.db", quietly = TRUE, lib.loc=libpath_local))
-    BiocManager::install("org.Hs.eg.db", lib=libpath_local)
+# if (!requireNamespace("BiocManager", quietly=TRUE, lib.loc=libpath_local))
+#   install.packages("BiocManager")
+# if (!requireNamespace("org.Hs.eg.db", quietly = TRUE, lib.loc=libpath_local))
+#     BiocManager::install("org.Hs.eg.db", lib=libpath_local)
 
 library(renv)
 library(glue)
@@ -582,7 +583,7 @@ and then
 filtered_eset <- nsFilter(
   minimalSet,
   require.entrez=TRUE,
-  remove.dupEntrez=FALSE,
+  remove.dupEntrez=TRUE,
   var.func=IQR,
   var.filter=TRUE,
   var.cutoff=0.05,
@@ -605,6 +606,12 @@ gsc <- GSEABase::getGmt(
   gmt_filepath,
   collectionType=NullCollection(),
   geneIdType=EntrezIdentifier())
+```
+
+### show first gene set
+
+```{r}
+geneIds(gsc[1])
 ```
 
 ### Functional Enrichment
@@ -638,14 +645,14 @@ design <- model.matrix( ~ 0 + ARM + AGE + BMI, data = pData(minimalSet_es))
 # fit the model
 fit <- lmFit(minimalSet_es, design)
 cm <- makeContrasts(
-  PBOvsTRT = ARMplacebo - ARMtreatment,
+  TRTvsPBO = ARMtreatment - ARMplacebo,
   levels = design
 )
 fit.cm <- contrasts.fit(fit, contrasts = cm)
 # correct
 fit <- eBayes(fit.cm)
 # gather table of whole geneSets
-allGeneSets <- topTable(fit, coef="PBOvsTRT", number=Inf)
+allGeneSets <- topTable(fit, coef="TRTvsPBO", number=Inf)
 # print basic results by filtering non significant genesets.
 res <- decideTests(
   fit,
