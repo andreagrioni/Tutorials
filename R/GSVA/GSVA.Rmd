@@ -20,7 +20,8 @@ Add Tutorial libraries to libPaths.
 
 libpath_local <- c(
   "/dlab/bioinformatics/TM/TMDS3/training/share/R/session9_gsva/Tutorials-main/R/GSVA/renv/library/R-4.0/x86_64-pc-linux-gnu",
-                   "/dlab/bioinformatics/TM/TMDS3/training/share/R/session9_gsva/Rlib/"                   )
+                   "/dlab/bioinformatics/TM/TMDS3/training/share/R/session9_gsva/Rlib/",
+  .libPaths())
 
 .libPaths(libpath_local)
 
@@ -29,15 +30,15 @@ libpath_local <- c(
 ## test renv
 
 ```{r renv}
-# if (!requireNamespace("renv", quietly = TRUE))
-#    install.packages("renv")
-# if (!requireNamespace("glue", quietly = TRUE))
-#     install.packages("glue")
-
+if (!requireNamespace("renv", quietly = TRUE))
+   install.packages("renv")
+if (!requireNamespace("glue", quietly = TRUE))
+    install.packages("glue")
 
 library(renv)
 library(glue)
 
+options(connectionObserver = NULL) # fix current bug in RSQL. see https://support.bioconductor.org/p/9136239/
 Sys.setenv(RENV_PATHS_LOCAL = glue("{getwd()}/renv/local"))
 renv::restore()
 ```
