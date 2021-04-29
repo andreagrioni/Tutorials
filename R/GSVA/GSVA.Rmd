@@ -11,6 +11,9 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Set as working directory the subfolder `Tutorials/R/GSVA/`. 
+
+
 ## load/install renv
 
 `renv` is used to restore the analysis environments; this chunk of code loads `renv` or install it if needed.
