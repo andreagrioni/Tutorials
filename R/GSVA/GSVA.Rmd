@@ -11,23 +11,12 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Settings for Internal Servers
+## load/install renv
 
-Add Tutorial libraries to libPaths.
+`renv` is used to restore the analysis environments; this chunk of code loads `renv` or install it if needed.
 
-```{r}
-
-
-libpath_local <- c(
-  "/dlab/bioinformatics/TM/TMDS3/training/share/R/session9_gsva/Tutorials-main/R/GSVA/renv/library/R-4.0/x86_64-pc-linux-gnu",
-                   "/dlab/bioinformatics/TM/TMDS3/training/share/R/session9_gsva/Rlib/",
-  .libPaths())
-
-.libPaths(libpath_local)
-
-```
-
-## test renv
+The cmd `renv::restore()` tells to `renv` to install libraries necessary for the analysis.
+This is a one-time process and may take time depending on your system and internet connection.
 
 ```{r renv}
 if (!requireNamespace("renv", quietly = TRUE))
@@ -39,7 +28,7 @@ library(renv)
 library(glue)
 
 options(connectionObserver = NULL) # fix current bug in RSQL. see https://support.bioconductor.org/p/9136239/
-Sys.setenv(RENV_PATHS_LOCAL = glue("{getwd()}/renv/local"))
+Sys.setenv(RENV_PATHS_LOCAL = glue("{getwd()}/renv/local")) # set path to local package somascan.db
 renv::restore()
 ```
 
