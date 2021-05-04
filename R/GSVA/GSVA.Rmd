@@ -389,7 +389,10 @@ Source from [here](https://www.bioconductor.org/packages/release/bioc/vignettes/
 
 ```{r}
 
-make_eset <- function(table, annotation) {
+make_eset <- function(table, annotation, seq_identifier='seq.') {
+  
+  if (seq_identifier == 'seq.') {
+  
   matrix_data <- table %>% 
     select(starts_with("seq.")) %>%
     as.matrix() %>%
@@ -397,6 +400,18 @@ make_eset <- function(table, annotation) {
   
   pheno_data <- table %>% 
     select(!starts_with("seq."))
+  
+  } else if (seq_identifier == 'anti') {
+  
+    matrix_data <- table %>% 
+    select(starts_with("anti")) %>%
+    as.matrix() %>%
+    t()
+  
+  pheno_data <- table %>% 
+    select(!starts_with("anti"))
+  
+  }
   
   k <- annotation %>% pull(SeqId)
   
