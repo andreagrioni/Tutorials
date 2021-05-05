@@ -52,7 +52,10 @@ renv::restore()
 # sudo apt-get install libxml2
 
 ## ERROR: compilation failed for package ‘readr’
-#install.packages("Rcpp", repos="https://rcppcore.github.io/drat")
+# install.packages("Rcpp", repos="https://rcppcore.github.io/drat")
+
+## ERROR: fatal error: zlib.h: No such file or directory
+# sudo apt-get install libz-dev
 
 ```
 # Gene Set Variation Analysis
